@@ -1,0 +1,5 @@
+# Molecule AI workspace runtime — shared infrastructure
+molecule-ai-workspace-runtime>=0.1.0
+
+# gemini-cli adapter has no extra Python dependencies.
+# The CLIAgentExecutor (base) handles all subprocess management.
