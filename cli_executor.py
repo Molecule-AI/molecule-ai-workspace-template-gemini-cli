@@ -38,8 +38,8 @@ from a2a.server.events import EventQueue
 # KI-009: a2a-sdk v1 renames a2a.utils → a2a.helpers
 from a2a.helpers import new_agent_text_message
 
-from config import RuntimeConfig
-from executor_helpers import (
+from molecule_runtime.config import RuntimeConfig
+from molecule_runtime.executor_helpers import (
     CONFIG_MOUNT,
     MEMORY_CONTENT_MAX_CHARS,
     WORKSPACE_MOUNT,
