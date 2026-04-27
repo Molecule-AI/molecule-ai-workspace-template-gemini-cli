@@ -15,6 +15,14 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY adapter.py .
 COPY __init__.py .
+# Adapter-specific executor — owned by THIS template (universal-runtime
+# refactor, molecule-core task #87 / #122). Lives alongside adapter.py
+# so Python's import system picks the local /app/cli_executor.py before
+# any same-named module under site-packages. Once molecule-core drops
+# the file from its workspace/ package, this template becomes the sole
+# source of truth (codex/ollama presets in the file are dead — neither
+# has a template repo today, so the file lives here only for gemini-cli).
+COPY cli_executor.py .
 
 ENV ADAPTER_MODULE=adapter
 
