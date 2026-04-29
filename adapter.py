@@ -77,7 +77,7 @@ class GeminiCLIAdapter(BaseAdapter):
         Also seeds GEMINI.md from system-prompt.md if GEMINI.md is absent,
         so the agent has role context on first boot.
         """
-        from executor_helpers import get_mcp_server_path
+        from molecule_runtime.executor_helpers import get_mcp_server_path
 
         # -- MCP wiring --------------------------------------------------
         gemini_dir = Path.home() / ".gemini"
@@ -116,7 +116,7 @@ class GeminiCLIAdapter(BaseAdapter):
 
     async def create_executor(self, config: AdapterConfig) -> AgentExecutor:
         from cli_executor import CLIAgentExecutor
-        from config import RuntimeConfig
+        from molecule_runtime.config import RuntimeConfig
 
         rc = config.runtime_config
         if isinstance(rc, dict):
@@ -139,3 +139,6 @@ class GeminiCLIAdapter(BaseAdapter):
             config_path=config.config_path,
             heartbeat=config.heartbeat,
         )
+
+
+Adapter = GeminiCLIAdapter
