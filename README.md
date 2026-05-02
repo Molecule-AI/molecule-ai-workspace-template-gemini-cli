@@ -22,3 +22,6 @@ github://Molecule-AI/template-gemini-cli
 
 ## License
 Business Source License 1.1 — © Molecule AI.
+
+## See also
+For the full `config.yaml` schema, runtime conventions (model selection, API key handling), skill loading rules, dev setup, and release process, see [`CLAUDE.md`](CLAUDE.md).
