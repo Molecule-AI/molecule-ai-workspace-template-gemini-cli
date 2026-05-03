@@ -36,7 +36,7 @@ from pathlib import Path
 from a2a.server.agent_execution import AgentExecutor, RequestContext
 from a2a.server.events import EventQueue
 # KI-009: a2a-sdk v1 renames a2a.utils → a2a.helpers
-from a2a.helpers import new_text_message
+from molecule_runtime.executor_helpers import new_response_message
 
 from molecule_runtime.config import RuntimeConfig
 from molecule_runtime.executor_helpers import (
@@ -276,7 +276,7 @@ class CLIAgentExecutor(AgentExecutor):
         user_input = extract_message_text(context.message)
         if not user_input:
             await event_queue.enqueue_event(
-                new_text_message("Error: message contained no text content.")
+                new_response_message(context, "Error: message contained no text content.")
             )
             return
 
@@ -368,7 +368,7 @@ class CLIAgentExecutor(AgentExecutor):
                     result = stdout_text
                     if result:
                         await event_queue.enqueue_event(
-                            new_text_message(result)
+                            new_response_message(context, result)
                         )
                         return
                     else:
@@ -380,7 +380,7 @@ class CLIAgentExecutor(AgentExecutor):
                             await asyncio.sleep(delay)
                             continue
                         await event_queue.enqueue_event(
-                            new_text_message("(no response generated after retries)")
+                            new_response_message(context, "(no response generated after retries)")
                         )
                         return
                 else:
@@ -402,7 +402,7 @@ class CLIAgentExecutor(AgentExecutor):
                     # only the sanitized category to the user.
                     logger.error("CLI agent error [%s]: %s", self.runtime, error_msg[:500])
                     await event_queue.enqueue_event(
-                        new_text_message(sanitize_agent_error(category=category))
+                        new_response_message(context, sanitize_agent_error(category=category))
                     )
                     return
 
@@ -424,13 +424,13 @@ class CLIAgentExecutor(AgentExecutor):
                     except Exception as wait_err:
                         logger.warning("CLI wait error: %s", wait_err)
                 await event_queue.enqueue_event(
-                    new_text_message(sanitize_agent_error(category="timeout"))
+                    new_response_message(context, sanitize_agent_error(category="timeout"))
                 )
                 return
             except Exception as exc:
                 logger.exception("CLI agent exception [%s]", self.runtime)
                 await event_queue.enqueue_event(
-                    new_text_message(sanitize_agent_error(exc))
+                    new_response_message(context, sanitize_agent_error(exc))
                 )
                 return
 
